@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Facial Recognition Project</title>
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>  
+    <script src="facepp-sdk.min.js"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="group-section">
+        <form class="upload-person">
+          <label for="upload-person-photo">Select Photo</label>
+          <input id="upload-person-photo" class="person-photo" type="file">
+          <label for="upload-person-name">Person's name</label>
+          <input id="upload-person-name" class="person-name" type="text">
+          <input class="upload-person-submit" type="submit" value="Add person">
+        </form>
+        <div class="person-list">
+          <div>These are the people in the current group:</div>
+          <table class="person-list-table">
+            <th>Names</th>
+          </table>
+        </div>
+      </div>
+      <div class="face-rec-section">
+        <form class="upload-face-reg">
+          <label for="upload-face-reg-photo">Select Photo for Facial Recognition</label>
+          <input id="upload-face-reg-photo" class="face-reg-photo" type="file">
+          <input class="upload-face-reg-submit" type="submit" value="Analyze this Photo">
+        </form>
+        <div class="face-rec-result"></div> 
+      </div>      
+    </div>
+  </body>
+</html>
