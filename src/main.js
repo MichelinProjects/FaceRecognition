@@ -3,6 +3,9 @@ $(function() {
   var $loadComplete = $('.load-complete');
   var $personListTable = $('.person-list-table');
   var $groupDeleted = $('.group-deleted');
+  var $personPhoto = $('#upload-person-photo');
+  var $uploadPersonPreview = $('.upload-person-preview');
+  var $uploadFacePreview = $('.upload-face-preview');
 
   var namesList = [];
 
@@ -35,6 +38,11 @@ $(function() {
     $spinner.hide();
     $groupDeleted.hide();
     $loadComplete.hide();
+  };
+
+  var generatePreview = function(fileSrc) {
+    var $preview = $('<img class="col-xs-6 col-sm-4" src="'+ fileSrc + '">');
+    return $preview;
   };
 
   statusClear();
@@ -76,12 +84,28 @@ $(function() {
     )
   });
 
-  //Event listener for adding a person
+  $personPhoto.on('change', function(event) {
+    var files = $personPhoto[0].files;
+    var filesLength = files.length;
+    $uploadPersonPreview.empty();
+
+    var reader = new FileReader();
+    var index = 0;
+
+    reader.onload = function(event) {
+      $uploadPersonPreview.append(generatePreview(event.target.result));
+      index++;
+      if (files[index]) {
+        reader.readAsDataURL(files[index]);
+      }
+    }
+    reader.readAsDataURL(files[index]);
+  });
+
+  //Event listener for "Add Person" button
   $('.upload-person').on('submit', function(event) {
     event.preventDefault();
     statusClear();
-
-    var $personPhoto = $('#upload-person-photo');
 
     if ($personPhoto.val()) {
       console.log("Photo added");
@@ -97,16 +121,11 @@ $(function() {
       return alert("Please enter a person's name");
     }
 
-    api.request('person/create', {
-      person_name: newPersonName,
-      group_name: 'people'
-    }, function(err, result) {
-      if (err && err !== 1503) {
-        return onUploadFailure();
-      } else {
-        api.request('detection/detect', {
+    var addFaces = function(photoList, personName, index) {
+      if (photoList.length === index) return;
+      api.request('detection/detect', {
           mode: 'oneface',
-          img: $personPhoto[0].files[0]
+          img: photoList[index]
         }, function(err, result) {
           if (err) {
             return onUnknownFailure(err);
@@ -114,31 +133,44 @@ $(function() {
             if (result.face[0]) {
               var faceId = result.face[0].face_id;
               api.request('person/add_face', {
-                person_name: newPersonName,
+                person_name: personName,
                 face_id: faceId
               }, function(err, result) {
                 if (err) {
                   return onUnknownFailure(err);
                 } else {
-                  if (namesList.indexOf(newPersonName) === -1 ) {
-                    console.log('Added', newPersonName);
-                    $personListTable.append('<tr><td>' + newPersonName + '</td></tr>');
-                    namesList.push(newPersonName);
+                  if (namesList.indexOf(personName) === -1 ) {
+                    console.log('Added', personName);
+                    $personListTable.append('<tr><td>' + personName + '</td></tr>');
+                    namesList.push(personName);
                   } else {
-                    console.log('Did not add', newPersonName);
+                    console.log('Did not add', personName);
                   }
+                  addFaces(photoList, personName, index + 1);
                 }
               });
             } else {
               alert('No faces were detected');
+              addFaces(photoList, personName, index + 1);
             }
           }
         });
+    }
+
+    api.request('person/create', {
+      person_name: newPersonName,
+      group_name: 'people'
+    }, function(err, result) {
+      if (err && err !== 1503) {
+        return onUploadFailure();
+      } else {
+        addFaces($personPhoto[0].files, newPersonName, 0);
       }
     });
     
   });
 
+  // Event Listener for "Prepare Group" button
   $('.lock-group').on('submit', function(event) {
     event.preventDefault();
     $spinner.show();
@@ -170,6 +202,7 @@ $(function() {
     });
   });
 
+  // Event Listener for "Clear Group" button
   $('.clear-group').on('submit', function(event) {
     event.preventDefault();
     $personListTable.empty();
@@ -196,6 +229,11 @@ $(function() {
     });
   });
 
+  $('#upload-face-photo').on('change', function(event) {
+
+  });
+
+  // Event Listener for "Analyze this Photo" button
   $('.upload-face-reg').on('submit', function(event) {
     event.preventDefault();
     statusClear();

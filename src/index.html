@@ -5,45 +5,69 @@
     <meta name="viewport" content="width=device-width">
     <title>Facial Recognition Project</title>
     <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>  
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
     <script src="facepp-sdk.min.js"></script>
     <script src="apiData.js"></script>
   </head>
   <body>
-    <div class="main">
-      <div class="group-section">
+    <div class="main container">
+      <div class="row">
+        <h1 class="title text-center">Simple Facial Recognition</h1>
+      </div>
+      <div class="group-section container">
+        <h3 class="section-title">Step 1: Add people to your group</h3>
         <form class="upload-person">
-          <label for="upload-person-photo">Select Photo</label>
-          <input id="upload-person-photo" class="person-photo" type="file">
-          <label for="upload-person-name">Person's name</label>
-          <input id="upload-person-name" class="person-name" type="text">
+          <div class="row">
+            <label class="col-xs-6 col-sm-4" for="upload-person-name">Person's name</label>
+            <input class="col-xs-6 col-sm-4 person-name" id="upload-person-name" type="text">
+          </div>
+          <div class="row">
+            <label class="col-xs-6 col-sm-4" for="upload-person-photo">Select Photos of a Person</label>
+            <input class="col-xs-6 col-sm-4 person-photo" id="upload-person-photo" type="file" multiple="multiple">
+          </div>
+          <div class="upload-person-preview row"></div>
           <input class="upload-person-submit" type="submit" value="Add person">
         </form>
-        <div class="person-list">
-          <div>These are the people in the current group:</div>
-          <table class="person-list-table">
-            <tr><th>Names</th></tr>
-          </table>
+      </div>
+      <div class="group-section container">
+        <h3 class="section-title">Step 2: Prepare your group for image recognition</h3>
+        <div class="row">
+          <div class="person-list col-xs-12">
+            <div>These are the people in the current group:</div>
+            <div class="table-container">
+              <table class="table table-striped table-bordered person-list-table">
+                <tr><th>Names</th></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="group-set col-xs-6 col-sm-4">
+            <form class="lock-group">
+              <input class="lock-group-submit" type="submit" value="Prepare group">
+            </form>
+            <div class="spinner">
+              <img src="spinner.gif">
+            </div>
+            <div class="load-complete">Load Complete</div>
+          </div>
+          <div class="group-clear col-xs-6 col-sm-4">
+            <form class="clear-group">
+              <input class="clear-group-submit" type="submit" value="Clear group">
+            </form>
+            <div class="group-deleted">Group cleared</div>
+          </div>  
         </div>
       </div>
-      <div class="group-set">
-        <form class="lock-group">
-          <input class="lock-group-submit" type="submit" value="Prepare group for image recognition">
-        </form>
-        <div class="spinner">
-          <img src="spinner.gif">
-        </div>
-        <div class="load-complete">Load Complete</div>
-      </div>
-      <div class="clear-group">
-        <form class="clear-group">
-          <input class="clear-group-submit" type="submit" value="Clear group">
-        </form>
-        <div class="group-deleted">Group cleared</div>
-      </div>  
-      <div class="face-rec-section">
+      <div class="group-section container">
+        <h3 class="section-title">Step 3: Test an image!</h3>
         <form class="upload-face-reg">
-          <label for="upload-face-reg-photo">Select Photo for Facial Recognition</label>
-          <input id="upload-face-reg-photo" class="face-reg-photo" type="file">
+          <div class="row">
+            <label class="col-xs-6 col-sm-4" for="upload-face-reg-photo">Select Photo</label>
+            <input class="col-xs-6 col-sm-4 face-reg-photo" id="upload-face-reg-photo" class="face-reg-photo" type="file">
+          </div>
+          <div class="upload-face-preview"></div>
           <input class="upload-face-reg-submit" type="submit" value="Analyze this Photo">
         </form>
         <div class="face-rec-result"></div> 

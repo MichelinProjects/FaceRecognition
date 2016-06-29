@@ -1,0 +1,22 @@
+{
+  "name": "face-recognition",
+  "version": "1.0.0",
+  "description": "A simple facial recognition web application using the Face++ API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo hello"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichelinProjects/FaceRecognition.git"
+  },
+  "author": "Michelle Yung, Edwin Lin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichelinProjects/FaceRecognition/issues"
+  },
+  "homepage": "https://github.com/MichelinProjects/FaceRecognition#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
