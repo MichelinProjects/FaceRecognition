@@ -123,6 +123,7 @@ $(function() {
                   if (namesList.indexOf(newPersonName) === -1 ) {
                     console.log('Added', newPersonName);
                     $personListTable.append('<tr><td>' + newPersonName + '</td></tr>');
+                    namesList.push(newPersonName);
                   } else {
                     console.log('Did not add', newPersonName);
                   }
