@@ -181,7 +181,7 @@ $(function() {
       if (err) {
         return onUnknownFailure(err);
       } else {
-        var sessionId = result.session_id
+        var sessionId = result.session_id;
         setTimeout(function checkTrainStatus() {
           api.request('info/get_session', {
             session_id: sessionId
@@ -224,6 +224,15 @@ $(function() {
             console.log('successful delete', result);
           }
         });  
+      });
+      api.request('group/create', {
+        group_name: 'people'
+      },function(err, result) {
+        if (err) {
+          onUnknownFailure(err);
+        } else {
+          console.log('recreated group');
+        }
       });
       $groupDeleted.show();
     });
